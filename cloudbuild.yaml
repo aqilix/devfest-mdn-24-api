@@ -1,0 +1,36 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - 'run'
+  - 'deploy'
+  - '${_SERVICE_NAME}'
+  - '--allow-unauthenticated'
+  - '--platform managed'
+  - '--image'
+  - '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA'
+  - '--region'
+  - '${_REGION}'
+  - '--add-cloudsql-instances'
+  - '${_CLOUD_SQL_INSTANCE}'
+  - '--set-env-vars' 
+  - 'DB_HOST=${_APP_DB_HOST}' 
+  - '--set-env-vars' 
+  - 'DB_PORT=${_APP_DB_PORT}' 
+  - '--set-env-vars' 
+  - 'DB_USER=${_APP_DB_USER}' 
+  - '--set-env-vars' 
+  - 'DB_PASS=${_APP_DB_PASS}' 
+  - '--set-env-vars' 
+  - 'DB_NAME=${_APP_DB_NAME}' 
+images:
+- '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA'
+options:
+  logging: CLOUD_LOGGING_ONLY
