@@ -23,8 +23,8 @@ services:
             - pgsql
 
     pgsql:
-        image: 'postgres:14'
-        container_name: pgsql
+        image: 'postgres:16'
+        container_name: fastapidb
         restart: unless-stopped
         ports:
             - '${DB_PORT:-5432}:5432'
