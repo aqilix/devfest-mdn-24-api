@@ -1,9 +1,11 @@
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
+  dir: 'fastapi' 
   args: ['build', '-t', '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA', '.']
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
+  dir: 'fastapi' 
   args: ['push', '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
