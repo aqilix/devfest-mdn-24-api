@@ -53,7 +53,11 @@ docker-compose up -d
 -  `PATCH  /users/me`
 -  `GET /authenticated-route`
 
-Please check the Postman collection in the [docs](./docs) folder, then import it to your Postman for trying the API.
+Please check the Postman collection in the [docs](./docs) folder, then import it to your Postman for trying the API or you can access base on [FastAPI Doc](https://fastapi.tiangolo.com/tutorial/metadata/#docs-urls): 
+- [http://{{BASE_URL}}:{{PORT}}/redoc](http://127.0.0.1:8080/redoc) for Redocly documentation
+- [http://{{BASE_URL}}:{{PORT}}/docs](http://127.0.0.1:8080/docs) for Swagger documentation
+  
+
 
 ### Authors
 
