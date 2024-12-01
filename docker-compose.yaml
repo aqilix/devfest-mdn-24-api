@@ -1,7 +1,6 @@
 version: '3.8'
 services:
     api:
-        image: 'python:3.12.1-alpine'
         container_name: fastapi
         build:
            context: ./fastapi
