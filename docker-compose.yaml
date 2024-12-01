@@ -1,6 +1,7 @@
 version: '3.8'
 services:
     api:
+        image: 'devfest-mdn-24-api'
         container_name: fastapi
         build:
            context: ./fastapi
