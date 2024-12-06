@@ -4,7 +4,7 @@ steps:
   args: ['build', '-t', '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA', 'fastapi']
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA', 'fastapi']
+  args: ['push', '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
@@ -13,13 +13,10 @@ steps:
   - 'deploy'
   - '${_SERVICE_NAME}'
   - '--allow-unauthenticated'
-  - '--platform managed'
-  - '--image'
-  - '${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA'
-  - '--region'
-  - '${_REGION}'
-  - '--add-cloudsql-instances'
-  - '${_CLOUD_SQL_INSTANCE}'
+  - '--platform=managed'
+  - '--add-cloudsql-instances=${_CLOUD_SQL_INSTANCE}'
+  - '--image=${_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_REPOSITORY_DETAIL}:$COMMIT_SHA'
+  - '--region=${_REGION}'
   - '--set-env-vars' 
   - 'DB_HOST=${_APP_DB_HOST}' 
   - '--set-env-vars' 
